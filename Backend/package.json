@@ -1,0 +1,24 @@
+{
+  "name": "dev-tender",
+  "version": "1.0.0",
+  "description": "a project for developer tinder ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hamidmeer4/Dev-Tinder.git"
+  },
+  "author": "hamid bangash",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hamidmeer4/Dev-Tinder/issues"
+  },
+  "homepage": "https://github.com/hamidmeer4/Dev-Tinder#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
