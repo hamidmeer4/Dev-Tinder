@@ -36,6 +36,20 @@ then play with code and create multiple route handler
 multiple route in array..
 
 
+separate same user route using next().
+order matter / then user route multiple route
+what is middleware 
+how express js basically work bts
+middleware chain 
+why we need to middleware
+http status code 
+diff b/w app.use and app.all
+set up to middleware create folder give file name auth
+write dummy auth and admin for all user router 
+error handling using try catch.
+
+
+
 
 
 

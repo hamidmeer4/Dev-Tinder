@@ -3,64 +3,22 @@
 const express = require("express");
 const app = express();
 
-// simple route handler
-// app.use("/getUser",(req,res) => {
-//    console.log("first route handler ...")
-//    res.send("first Response from server...")
-// })
+// middleware 
+// log methiod and url
+app.use((req,res,next) => {
+   console.log(`log the mthod and url '${req.method}'  -  '${req.url}'`);
+   next() ;
+})
 
-// now i use next() to create multiple route handler ....
-// app.use("/getUser", (req,res,next) => {
-//    console.log("first route handler ...")
-//    res.send("first Response from server...")
-//    next()
-
-// }, (req,res,next) => {
-//    console.log("2nd route handler ...")
-//     next()
-//    // res.send("2nd Response from server...")
-
-// }, (req,res,next) => {
-//    console.log("3rd route handler ...")
-//    // res.send("2nd Response from server...")
-//    next()
-// }, (req,res,next) => {
-//    console.log("4th route handler ...")
-//    next()
-//    res.send("4th Response from server...")
-// }, (req,res) => {
-//    console.log("5th route handler ...")
-//    res.send("5th Response from server...")
-// }
-// )
-
-// now i use array sign routes
-app.use("/getUser", [
-  (req, res, next) => {
-    console.log("first route handler ...");
-    res.send("first Response from server...");
-    next();
-  },
-  (req, res, next) => {
-    console.log("2nd route handler ...");
-    next();
-    // res.send("2nd Response from server...")
-  },
-  (req, res, next) => {
-    console.log("3rd route handler ...");
-    // res.send("2nd Response from server...")
-    next();
-  },
-  (req, res, next) => {
-    console.log("4th route handler ...");
-    next();
-    res.send("4th Response from server...");
-  },
-  (req, res) => {
-    console.log("5th route handler ...");
-    res.send("5th Response from server...");
-  },
-]);
+// Middleware 2: Add a custom header
+app.use((req,res,next) => {
+   res.setHeader("Hehhe-Middleware","Midddleare chaining ")
+   next()
+})
+// 3: Route handler
+app.get('/',(req,res) => {
+   res.send("Hellow World from server...")
+})
 
 app.listen(7777, () => {
   console.log("Server running on port 7777");
