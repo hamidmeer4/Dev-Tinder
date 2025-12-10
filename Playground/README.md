@@ -27,3 +27,15 @@ reading the dynmic routes /a/ , /.*fly$/...
 
 
 
+S2-Epi-03 Middleware and Error handling...
+
+create basic route
+then create multiple route handler 
+then use next()
+then play with code and create multiple route handler
+multiple route in array..
+
+
+
+
+
