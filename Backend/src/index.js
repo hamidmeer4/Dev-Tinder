@@ -23,5 +23,5 @@ connectDB()
     });
   })
   .catch(() => {
-    console.log("Database is Established");
+    console.log("eeror in db...");
   });

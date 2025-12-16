@@ -1,26 +1,34 @@
 // 1) creating server
-
 const express = require("express");
-const {auth, userAuth} = require('./middleware/auth')
+const connectDB = require("./config/database")
+const {User} = require("./models/user.js")
 const app = express();
 
-app.use("/admin",auth)
-app.use("/user",userAuth)
+app.use(express.json())
 
-
-app.get("/admin/getAllData", (req,res) => {
-   try {
-      throw new Error("error in code ")
-   } catch(err) {
-      res.send("something error in code ...")
+app.post("/signup", async (req,res) => {
+  try {  
+  const userData = new User(req.body)
+    await userData.save();
+    res.send("User Data Successfully Added")
    }
+   catch(err) {
+   res.status(500).send(err.message);
+   }
+
 })
 
-app.get("/user/getUserData",(req,res) => {
-   console.log("this is the get all data ");
-   res.send("this is the getUser all data ");
-})
 
-app.listen(7777, () => {
+
+connectDB()
+.then(() => {
+  console.log("the db is successfully connected");
+  app.listen(7777, () => {
   console.log("Server running on port 7777");
 });
+})
+.catch((err) => {
+  console.log("error in db ");
+
+})
+
