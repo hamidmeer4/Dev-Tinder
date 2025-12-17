@@ -51,5 +51,19 @@ error handling using try catch.
 
 
 
+S2-Epi-04 Diving into the API's...
+
+diff  b/w object vs json 
+API - make you signup dynamic to recieve data from the end user
+user.findOne with dublicate email ids which object returend
+API - get user by email
+API - Feed api get all user frkm the db 
+API - get user by ID
+API - create delete user API
+diff patch and put 
+API - update user 
+explore mongooose documentation for model method 
+API - update the USer by email,
+
 
 
