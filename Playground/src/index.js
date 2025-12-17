@@ -3,124 +3,53 @@ const express = require("express");
 const connectDB = require("./config/database")
 const {User} = require("./models/user.js")
 const app = express();
-
 app.use(express.json())
 
-// API - signup
-// app.post("/signup", async (req, res) => {
 
-//   try {
-//   const user = new User(req.body)
-//   await  user.save();
-//   res.send("Signup Successfully ...")
-//   }
-//   catch (err) {
-//     res.status(500).send("Error inside Db")
-//   }
-// })
+// signup api 
+app.post("/signup",async (req,res) => {
+ try {
+  const user = new User(req.body)
+  await user.save();
+  res.send("User Successfull Added")
+ }
+ catch(err) {
+  res.status(500).send("Something error in signup Api")
+ }
+})
 
-// get 1 user from db 
-// app.get("/getUser",async (req,res) => {
-//   const id = req.body.id;
-//  try {
-//   const user = await User.find({_id: id});
-//   res.send(user)
-//  } catch (err) {
-//    res.send(err)
-//  }
-// })
+// update api 
+app.patch("/updateUser",async (req,res) => {
+  const _id = req.body._id;
+  const data = req.body;
+ 
+try {
 
-// get all document give name feed 
-// app.get("/feed", async (req,res) => {
-//   try {
-//   const users = await User.find({});
-//   res.send(users);
-//   } catch (err) {
-//     res.status(500).send(err.message)
-//   }
-// })
+  await User.findByIdAndUpdate(_id,data)
+  res.send("Update Successfully....")
+} catch(err) {
+  res.status(500).send("Something error in signup Api")
+ }
+})
 
+// api level validation 
+app.patch("/updateUser/:_id",async (req,res) => {
+  const _id = req.params?._id;
+  const data = req.body;
+ 
+try {
+  const isAllowedUpdate = ["lastName","age","gender","imgUrl","about","skills"]
+  const isAllowed = Object.keys(data).every(k => isAllowedUpdate.includes(k));
 
-// fetch one document
-// app.get("/findUser", async (req,res) => {
-//   const id = req.body.id;
-//   console.log(id);
-//   try {  
-//   const user = await User.findOne({_id: id})
-//   res.send(user)
-//   }
-//   catch (err) {
-//     res.status(500).send(err.message)
-//   }
-
-// })
-
-
-// API - get usersByEmail 
-
-// app.get("/getUserByEmail", async (req,res) => {
-//   const userEmail = req.body.emailId;
-//  try {
-//   const user = await User.find({emailId: userEmail});
-//   res.send(user)
-//  }
-//  catch(err) {
-//   res.status(500).send(err);
-//  }
-// })
-
-// get oldest user using findOne method 
-// app.get("/getSingleUser", async (req,res) => {
-//   const userEmail = req.body.emailId;
-//  try {
-//   const user = await User.findOne({emailId: userEmail});
-//   res.send(user)
-//  }
-//  catch(err) {
-//   res.status(500).send(err);
-//  }
-// })
-
-// deleteUser
-// app.delete("/deleteUser", async (req,res) => {
-//   const id = req.body._id;
-
-//   try {
-//   await User.findOneAndDelete({_id: id})
-//   res.send("User Successfull deleted...")
-//   } catch(err) {
-//   res.status(500).send(err);
-//  }
-
-// })
-
-// updateUser by id 
-
-// app.patch("/updateUser", async (req,res) => {
-//   const id = req.body._id;
-//   const data = req.body;
-//   try {
-//     await User.findOneAndUpdate(id,data)
-//     res.send("Update successfully...")
-//   } catch (err) {
-//     res.status(500).send(err);
-//   }
-// })
-
-
-// app.patch("/updateByUser", async (req,res) => {
-//   const _firstName = req.body.firstName;
-//   const data = req.body;
-//   try {
-//     await User.findOneAndUpdate({firstName: _firstName},data)
-//     res.send("Update successfully...")
-//   } catch (err) {
-//     res.status(500).send(err);
-//   }
-// })
-
-
-
+  if(!isAllowed) {
+    throw new Error("Update not Allowed")
+  }
+  await User.findByIdAndUpdate(_id,data)
+  res.send("Update Successfully....")
+} catch(err) {
+  res.status(500).send("Something error in signup Api")
+ }
+})
 
 
 connectDB()
