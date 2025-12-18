@@ -38,12 +38,12 @@ app.patch("/updateUser/:_id",async (req,res) => {
   const data = req.body;
  
 try {
-  const isAllowedUpdate = ["lastName","age","gender","imgUrl","about","skills"]
-  const isAllowed = Object.keys(data).every(k => isAllowedUpdate.includes(k));
+  // const isAllowedUpdate = ["lastName","age","gender","imgUrl","about","skills"]
+  // const isAllowed = Object.keys(data).every(k => isAllowedUpdate.includes(k));
 
-  if(!isAllowed) {
-    throw new Error("Update not Allowed")
-  }
+  // if(!isAllowed) {
+  //   throw new Error("Update not Allowed")
+  // }
   await User.findByIdAndUpdate(_id,data)
   res.send("Update Successfully....")
 } catch(err) {
