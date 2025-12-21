@@ -1,66 +1,69 @@
 // 1) creating server
 const express = require("express");
-const connectDB = require("./config/database")
-const {User} = require("./models/user.js")
+const connectDB = require("./config/database");
+const { User } = require("./models/user.js");
+const { validatorSignup } = require("./utils/validator.js");
+const bcrypt = require("bcrypt");
 const app = express();
-app.use(express.json())
+app.use(express.json());
+
+// the validate worked perfect ..
+// encrypt the password
+// login api create 
+// check email and pasword first then login successfully 
 
 
-// signup api 
-app.post("/signup",async (req,res) => {
- try {
-  const user = new User(req.body)
-  await user.save();
-  res.send("User Successfull Added")
- }
- catch(err) {
-  res.status(500).send("Something error in signup Api")
- }
-})
-
-// update api 
-app.patch("/updateUser",async (req,res) => {
-  const _id = req.body._id;
-  const data = req.body;
- 
-try {
-
-  await User.findByIdAndUpdate(_id,data)
-  res.send("Update Successfully....")
-} catch(err) {
-  res.status(500).send("Something error in signup Api")
- }
-})
-
-// api level validation 
-app.patch("/updateUser/:_id",async (req,res) => {
-  const _id = req.params?._id;
-  const data = req.body;
- 
-try {
-  // const isAllowedUpdate = ["lastName","age","gender","imgUrl","about","skills"]
-  // const isAllowed = Object.keys(data).every(k => isAllowedUpdate.includes(k));
-
-  // if(!isAllowed) {
-  //   throw new Error("Update not Allowed")
-  // }
-  await User.findByIdAndUpdate(_id,data)
-  res.send("Update Successfully....")
-} catch(err) {
-  res.status(500).send("Something error in signup Api")
- }
-})
-
-
-connectDB()
-.then(() => {
-  console.log("the db is successfully connected");
-  app.listen(7777, () => {
-  console.log("Server running on port 7777");
+// signup api
+app.post("/signup", async (req, res) => {
+  const { firstName, lastName, emailId, password } = req.body;
+  try {
+    validatorSignup(req);
+    const paswordHash = await bcrypt.hash(password, 10);
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password: paswordHash,
+    });
+    user.save();
+    res.send("User Successfully Added.");
+  } catch (err) {
+    throw new Error("Invalid Credentials...");
+  }
 });
-})
-.catch((err) => {
-  console.log("error in db ");
 
+app.post("/login", async (req,res) => {
+  try {
+    const { emailId, password } = req.body;
+    
+    const user = await User.findOne({emailId,emailId})
+
+    if(!user) {
+      throw new Error("Invalid Credential");
+    }
+    
+    const commparedPassword = await bcrypt.compare(password, user.password)
+
+    if(commparedPassword) {
+      res.send("Login Successfully..")
+    }
+    else {
+    throw new Error("Invalid Credential");
+
+    }
+  } catch(err) {
+   res.status(400).send("ERROR: " + err);
+  }
 })
 
+app
+connectDB()
+  .then(() => {
+    console.log("the db is successfully connected");
+    app.listen(7777, () => {
+      console.log("Server running on port 7777");
+    });
+  })
+  .catch((err) => {
+    console.log("error in db ");
+  });
