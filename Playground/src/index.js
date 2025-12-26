@@ -35,21 +35,16 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req,res) => {
   try {
     const { emailId, password } = req.body;
-    
     const user = await User.findOne({emailId,emailId})
-
     if(!user) {
       throw new Error("Invalid Credential");
     }
-    
     const commparedPassword = await bcrypt.compare(password, user.password)
-
     if(commparedPassword) {
       res.send("Login Successfully..")
     }
     else {
     throw new Error("Invalid Credential");
-
     }
   } catch(err) {
    res.status(400).send("ERROR: " + err);
