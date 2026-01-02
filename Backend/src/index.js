@@ -1,27 +1,40 @@
 const express = require("express");
-const connectDB = require("./config/database");
-const User = require("./models/User");
+const { authUser } = require("./middleware/auth-middleware");
+// const connectDB = require("./config/database");
+// const User = require("./models/User");
 const app = express();
+// app.use(express.json());
 
-app.use(express.json())
+// middleware 
+// app.use("/", (req, res, next) => {
+//     console.log('Middleware 1');
+//     next();
+// });
 
-app.post("/signup", async (req, res) => {
-  const user = new User(req.body);
-  try {
-  await user.save();
-  res.json( "User Successfully Added");
-} catch (err) {
-  res.status(400).json("Something Error in your logic ")
-}
+// app.get('/user', authUser, (req, res) => {
+//     console.log('Route handler');
+//     res.send('Hello User Auth');
+// });
+
+
+
+
+
+
+
+
+app.listen(3001, () => {
+  console.log("✅ Server is running on http://localhost:3001");
 });
 
-connectDB()
-  .then(() => {
-    console.log("Database is Established");
-    app.listen(3001, () => {
-      console.log("✅ Server is running on http://localhost:3001");
-    });
-  })
-  .catch(() => {
-    console.log("eeror in db...");
-  });
+
+// connectDB()
+//   .then(() => {
+//     console.log("Database is Established");
+//     app.listen(3001, () => {
+//       console.log("✅ Server is running on http://localhost:3001");
+//     });
+//   })
+//   .catch(() => {
+//     console.log("eeror in db...");
+//   });

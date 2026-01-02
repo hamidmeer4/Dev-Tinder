@@ -61,7 +61,7 @@ API - create delete user API
 diff patch and put 
 API - update user 
 explore mongooose documentation for model method 
-API - update the USer by email,
+API - update the User by email,
 
 
 
